@@ -1,0 +1,28 @@
+{
+    "name": "jahem/tp3.2_composer",
+    "description": "tp3.2 composer",
+    "require": {
+        "php": ">=5.6",
+        "firebase/php-jwt": "^5.4",
+        "nesbot/carbon": "1.9.0",
+        "bacon/bacon-qr-code": "1.0.3",
+        "myclabs/php-enum": "1.6.1",
+        "symfony/options-resolver": "3.0.5",
+        "khanamiryan/qrcode-detector-decoder": "1.0.5.2",
+        "symfony/property-access": "2.8.23",
+        "endroid/qr-code": "2.3.4"
+    },
+    "license": "Mit",
+    "autoload": {
+        "psr-4": {
+            "Jahem\\Tp32Composer\\": "src/"
+        },
+        "files": ["helpers/helpers.php"]
+    },
+    "authors": [
+        {
+            "name": "jahem",
+            "email": "13680653051@163.com"
+        }
+    ]
+}
