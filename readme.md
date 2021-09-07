@@ -2,7 +2,8 @@
 
 ### 项目根目录执行
 ```
-$ git clone https://github.com/jahem/tp3.2_composer.git org
+$ github：git clone https://github.com/jahem/tp3.2_composer.git org
+$ gitee：git clone https://gitee.com/jahem/tp3.2_composer.git org //国内github太慢，使用gitee
 $ cd org
 $ composer install
 ```
