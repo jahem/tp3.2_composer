@@ -15,6 +15,7 @@ $ require START_PATH.'/org/vendor/autoload.php'; //引入composer自动加载入
 ``` 
 
 ### 所有操作完成，请尽情使用，后续的composer类库，可直接在org目录下执行
+#### PS:注意安装的php版本问题，tp3.2 默认无法使用 5.6^,要用7.0需要修改mysql类或找低于5.6^的composer类，也还要注意依赖的
 如:
 ```
 $ cd org
