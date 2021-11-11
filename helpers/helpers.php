@@ -288,18 +288,30 @@ if (!function_exists('get_config')) {
      * @return type
      */
     function get_config($name = "") {
-        $base = new \Common\Controller\BaseController();
-        $conf = $base->ClassData('SiteInfo');
         if ($name == "") {
-            return $conf;
-        } else {
-            $_name = explode('.', $name);
-            foreach ($_name as $value) {
-                if ($conf != "") {
-                    $conf = isset($conf[$value]) ? $conf[$value] : "";
-                }
+            $siteinfo      = D("siteinfo");
+            $siteinfo_data = $siteinfo->select();
+            $re            = [];
+            foreach ($siteinfo_data as $k => $v) {
+                $skey          = "jahem_siteinfo_" . $v["key"];
+                S($skey, $v["value"]);
+                $re[$v["key"]] = unserialize($v["value"]);
             }
-            return $conf;
+            return $re;
+        } else {
+            list($key, $value) = explode(".", $name);
+            $skey = "jahem_siteinfo_" . $key;
+            $base = S($skey);
+            if (!$base) {
+                $siteinfo = D("siteinfo");
+                $base     = $siteinfo->where(["key" => $key])->getField("value");
+                S($skey, $base);
+            }
+            $base = unserialize($base);
+            if (!$value) {
+                return $base;
+            }
+            return !!$base[$value] ? $base[$value] : "";
         }
     }
 
