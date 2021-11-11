@@ -13,8 +13,8 @@ if (!function_exists('ajaxResponse')) {
      */
     function ajaxResponse($sta = 0, $msg = 'success', $data = [], array $other = [], $data_field = 'data', $output = "") {
         $data = [
-            'status' => $sta,
-            'info' => $msg,
+            'status'    => $sta,
+            'info'      => $msg,
             $data_field => !!$data ? $data : new \stdClass(),
         ];
         if (count($other) > 0) {
@@ -37,10 +37,10 @@ if (!function_exists('createPhoneStr')) {
      * @return string
      */
     function createPhoneStr($length) {
-        $str = '123456789'; //62个字符 
+        $str    = '123456789'; //62个字符 
         $strlen = 62;
         while ($length > $strlen) {
-            $str .= $str;
+            $str    .= $str;
             $strlen += 62;
         }
         $str = str_shuffle($str);
@@ -118,8 +118,8 @@ if (!function_exists('arrResponse')) {
      */
     function arrResponse($sta = 0, $msg = 'success', $data = [], array $other = [], $data_field = 'result') {
         $data = [
-            'sta' => $sta,
-            'msg' => $msg,
+            'sta'       => $sta,
+            'msg'       => $msg,
             $data_field => !!$data ? $data : new \stdClass(),
         ];
         if (count($other) > 0) {
@@ -138,9 +138,9 @@ if (!function_exists('phone_str_ireplace')) {
      */
     function phone_str_ireplace($phone) {
         if (preg_match("/^1[345678]{1}\d{9}$/", $phone)) {
-            $pattern = "/(\d{3})\d\d(\d{2})/";
+            $pattern     = "/(\d{3})\d\d(\d{2})/";
             $replacement = "\$1****\$3";
-            $phone = preg_replace($pattern, $replacement, $phone);
+            $phone       = preg_replace($pattern, $replacement, $phone);
         }
         return $phone;
     }
@@ -405,14 +405,14 @@ if (!function_exists('createToken')) {
      */
     function createToken($data) {
         $payload = [
-            'iss' => $_SERVER['HTTP_HOST'], //签发者
-            'aud' => $_SERVER['HTTP_HOST'], //jwt所面向的用户
-            "iat" => time(), //签发时间
-            "nbf" => time(), //在什么时间之后该jwt才可用
-            "exp" => time() + C('JWT.exp'), //有效期
+            'iss'  => $_SERVER['HTTP_HOST'], //签发者
+            'aud'  => $_SERVER['HTTP_HOST'], //jwt所面向的用户
+            "iat"  => time(), //签发时间
+            "nbf"  => time(), //在什么时间之后该jwt才可用
+            "exp"  => time() + C('JWT.exp'), //有效期
             "data" => $data
         ];
-        $token = \Firebase\JWT\JWT::encode($payload, C('JWT.key')); //生成token
+        $token   = \Firebase\JWT\JWT::encode($payload, C('JWT.key')); //生成token
         return $token;
     }
 
@@ -460,7 +460,7 @@ if (!function_exists('createNoncestr')) {
      */
     function createNoncestr($length = 32) {
         $chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-        $str = "";
+        $str   = "";
         for ($i = 0; $i < $length; $i++) {
             $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
         }
@@ -495,7 +495,7 @@ if (!function_exists('postXmlCurl')) {
      */
     function postXmlCurl($xml, $url, $second = 30) {
         //初始化curl
-        $ch = curl_init();
+        $ch   = curl_init();
         //设置超时
         curl_setopt($ch, CURLOPT_TIMEOUT, $second);
         //这里设置代理，如果有的话
@@ -546,7 +546,7 @@ if (!function_exists('getSign')) {
         ksort($paraMap);
         foreach ($paraMap as $k => $v) {
             if ($urlencode)
-                $v = urlencode($v);
+                $v    = urlencode($v);
             $buff .= $k . "=" . $v . "&";
         }
         if (strlen($buff) > 0)
@@ -566,11 +566,11 @@ if (!function_exists('getSign')) {
         }
         //签名步骤一：按字典序排序参数
         ksort($Parameters);
-        $String = formatBizQueryParaMap($Parameters, false);
+        $String  = formatBizQueryParaMap($Parameters, false);
         //签名步骤二：在string后加入KEY
-        $String = $String . "&key=" . $config['api_key'];
+        $String  = $String . "&key=" . $config['api_key'];
         //签名步骤三：MD5加密
-        $String = md5($String);
+        $String  = md5($String);
         //签名步骤四：所有字符转为大写
         $result_ = strtoupper($String);
         return $result_;
@@ -600,7 +600,7 @@ if (!function_exists('getTree')) {
         foreach ($array as $key => $value) {
             if ($value['pid'] == $pid) {
                 $value['children'] = getTree($array, $value['id']);
-                $tree[] = $value;
+                $tree[]            = $value;
             }
         }
         return $tree;
@@ -637,9 +637,9 @@ if (!function_exists('stringSign')) {
             $tmp[$k] = "{$k}={$v}";
         }
         ksort($tmp);
-        $stringA = implode("&", $tmp);
+        $stringA        = implode("&", $tmp);
         $stringSignTemp = $stringA . '&key=' . $key;
-        $sign = strtoupper(md5($stringSignTemp));
+        $sign           = strtoupper(md5($stringSignTemp));
         return $sign;
     }
 
@@ -666,15 +666,15 @@ if (!function_exists('unlinks')) {
      * @return int 删除文件数量
      */
     function unlinks($dir, $remain = 3) {
-        $handler = opendir($dir);
-        $file = [];
+        $handler  = opendir($dir);
+        $file     = [];
         while (($filename = readdir($handler)) !== false) {
             //略过linux目录的名字为'.'和‘..'的文件
             if ($filename != "." && $filename != "..") {
                 //输出文件名
                 $filename_file = $dir . "/" . $filename;
-                $time = filectime($filename_file);
-                $file[$time] = $filename_file;
+                $time          = filectime($filename_file);
+                $file[$time]   = $filename_file;
             }
         }
         closedir($handler);
@@ -685,7 +685,7 @@ if (!function_exists('unlinks')) {
             foreach ($file as $k => $value) {
                 $index = $k + 1;
                 if ($index > $remain) {
-                    $r = unlink($value);
+                    $r  = unlink($value);
                     $re = !!$r ? $re + 1 : $re;
                 }
             }
@@ -706,7 +706,7 @@ if (!function_exists('jahem_log')) {
     function jahem_log($msg, $type = "info", $filename = '', $files = "") {
 
         $type_text = [
-            "info" => "【INFO】",
+            "info"  => "【INFO】",
             "debug" => "【DEBUG】",
             "error" => "【ERROR】",
         ];
@@ -731,7 +731,7 @@ if (!function_exists('jahem_log')) {
         }
         $_type = isset($type_text[$type]) ? $type_text[$type] : $type_text["info"];
         $_date = "[" . date("H:i:s", time()) . "]";
-        $fp = fopen($files . '/' . $filename, 'a+');
+        $fp    = fopen($files . '/' . $filename, 'a+');
         flock($fp, LOCK_EX + LOCK_NB);
         fwrite($fp, $_type . $_date . $msg . PHP_EOL);
         flock($fp, LOCK_UN);
@@ -900,20 +900,20 @@ if (!function_exists('importExecl')) {
             'AW', 'AX', 'AY', 'AZ'
         );
 
-        $obj = $objRead->load($file);  //建立excel对象
+        $obj       = $objRead->load($file);  //建立excel对象
         $currSheet = $obj->getSheet($sheet);   //获取指定的sheet表
-        $columnH = $currSheet->getHighestColumn();   //取得最大的列号
+        $columnH   = $currSheet->getHighestColumn();   //取得最大的列号
         $columnCnt = array_search($columnH, $cellName);
-        $rowCnt = $currSheet->getHighestRow();   //获取总行数
+        $rowCnt    = $currSheet->getHighestRow();   //获取总行数
 
         $data = array();
         for ($_row = 1; $_row <= $rowCnt; $_row++) {  //读取内容
             for ($_column = 0; $_column <= $columnCnt; $_column++) {
-                $cellId = $cellName[$_column] . $_row;
-                $cellValue = $currSheet->getCell($cellId)->getValue();
+                $cellId                           = $cellName[$_column] . $_row;
+                $cellValue                        = $currSheet->getCell($cellId)->getValue();
                 //$cellValue = $currSheet->getCell($cellId)->getCalculatedValue();  #获取公式计算的值
                 if (is_object($cellValue))
-                    $cellValue = $cellValue->__toString();
+                    $cellValue                        = $cellValue->__toString();
 //                if ($cellValue instanceof PHPExcel_RichText) {
 //                    $cellValue = $cellValue->__toString();
 //                }
@@ -935,8 +935,8 @@ if (!function_exists('jfile_copy')) {
             jcreate_folders("." . $filename);
         }
         //获取后缀
-        $ary = explode('.', $file['name']);
-        $su = end($ary);
+        $ary       = explode('.', $file['name']);
+        $su        = end($ary);
         //文件名
         $filenames = $filename . "/" . time() . rand(1, 10000) . "." . $su;
         move_uploaded_file($file['tmp_name'], "." . $filenames);
@@ -975,18 +975,48 @@ if (!function_exists('jahem_where')) {
      * @param type $where
      * @param type $platform_where
      */
-    function jahem_where($where,$platform_where = [],$prefix = "") {
-        if(!empty($platform_where)){
+    function jahem_where($where, $platform_where = [], $prefix = "") {
+        if (!empty($platform_where)) {
             $type = gettype($where);
-            if($type == "string"){
-                $key = key($platform_where);
+            if ($type == "string") {
+                $key   = key($platform_where);
                 $value = $platform_where[$key];
                 $where = $where . " AND ({$prefix}{$key} = {$value})";
-            }else{
-                $where = array_merge($where,$platform_where);
+            } else {
+                $where = array_merge($where, $platform_where);
             }
         }
         return $where;
+    }
+
+}
+if (!function_exists('clear_cache')) {
+
+    /**
+     * 清除缓存，保留日志
+     * @return type
+     */
+    function clear_cache() {
+        S('web_all_class_cache', null); //删除MemCache缓存
+        \Common\Library\Dir::delDir(CACHE_PATH);
+        \Common\Library\Dir::delDir(TEMP_PATH);
+        \Common\Library\Dir::delDir(DATA_PATH);
+        $tmpic = './Uploads/tmp';
+        if (file_exists($tmpic)) {
+            \Common\Library\Dir::delDir($tmpic);
+        }
+        if (!is_dir(RUNTIME_PATH)) {
+            mkdir(RUNTIME_PATH, 0700);
+        }
+        if (!is_dir(CACHE_PATH)) {
+            mkdir(CACHE_PATH, 0700); // 模板缓存目录
+        }
+        if (!is_dir(TEMP_PATH)) {
+            mkdir(TEMP_PATH, 0700); // 数据缓存目录
+        }
+        if (!is_dir(DATA_PATH)) {
+            mkdir(DATA_PATH, 0700); // 数据文件目录
+        }
     }
 
 }
